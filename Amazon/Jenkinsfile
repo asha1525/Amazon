@@ -1,1 +1,37 @@
-// Added feature 1
+pipeline {
+  agent any
+  stages {
+    stage('Amazon Project') {
+      steps {
+        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+          dir('Amazon') {
+            sh 'ls -la'
+            sh 'mvn clean package'
+          }
+        }
+      }
+    }
+    stage('SKY Project') {
+      steps {
+        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+          dir('SKY') {
+            sh 'mvn clean package'
+          }
+        }
+      }
+    }
+    stage('SpringCore Project') {
+      steps {
+        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+          dir('SpringCore') {
+            sh 'mvn clean package'
+          }
+        }
+      }
+    }
+  }
+  post {
+    failure { echo 'One or more project builds failed!' }
+    success { echo 'All projects built successfully!' }
+  }
+}
