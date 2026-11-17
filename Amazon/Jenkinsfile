@@ -34,4 +34,5 @@ pipeline {
     failure { echo 'One or more project builds failed!' }
     success { echo 'All projects built successfully!' }
   }
+  echo 'completed'
 }
